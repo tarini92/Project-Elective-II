@@ -5,6 +5,6 @@ Video Resources Links:
 - CNN Introduction https://www.youtube.com/watch?v=FmpDIaiMIeA
 
 Stanford CS 231n Notes:
-http://cs231n.github.io/convolutional-networks/
-http://cs231n.github.io/understanding-cnn/
-cs231n.github.io/transfer-learning/
+- http://cs231n.github.io/convolutional-networks/
+- http://cs231n.github.io/understanding-cnn/
+- cs231n.github.io/transfer-learning/

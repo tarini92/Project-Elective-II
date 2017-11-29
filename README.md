@@ -1,4 +1,4 @@
-# Projective-Elective-II
+# Project-Elective-II
 
 Video Resources Links:
 - TensorFLow seq2seq https://www.youtube.com/watch?v=G5RY_SUJih4

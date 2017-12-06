@@ -57,7 +57,7 @@ def get_features(output_file_path, historyLength, k):
 features_path = 'C:\\Users\\Akanksha\\Desktop\\Sem III\\ML PE\\MOT\\MOT Dataset\\2DMOT2015\\2DMOT2015\\train\\TUD-Campus\\outFile.npz'
 
 # Defining the parameters
-historyLength = 8
+historyLength = 7
 k = 4
 input_feat_dim = 4096
 num_classes = 2

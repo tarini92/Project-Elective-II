@@ -8,9 +8,9 @@ from sklearn.model_selection import train_test_split
 from tflearn.data_utils import to_categorical
 
 # Code for first GRU
-def get_network_wide(historyLength, input_feat_dim, num_classes):
+def create_network(historyLength, input_feat_dim, num_classes):
 
-	### Create a one layer LSTM
+	### Create a one layer GRU
 	net = tflearn.input_data(shape=[None, historyLength , input_feat_dim])
 	print("Input Layer created")
 	net = tflearn.gru(net, 256, dropout = 0.2)
@@ -69,7 +69,7 @@ print("Input Features Shape: %d, %d, %d" % (X.shape[0], X.shape[1], X.shape[2]))
 Y = to_categorical(Y, num_classes)
 print("Target Shape: %d, %d" % (Y.shape[0], Y.shape[1]))
 
-net = get_network_wide(historyLength, input_feat_dim, num_classes)
+net = create_network(historyLength, input_feat_dim, num_classes)
 model = tflearn.DNN(net, tensorboard_verbose = 0)
 print("Network created")
 X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size = 0.1, random_state = 42)

@@ -22,7 +22,7 @@ def create_network(historyLength, input_feat_dim, num_classes):
 	return net
 
 # Retrieve stored feature sequences per video as a list of sequence arrays
-def get_features(output_file_path, historyLength, k):
+def get_features_per_video(output_file_path, historyLength, k):
 	
 	with open(output_file_path, 'rb') as f:
 		feat = pickle.load(f)
@@ -49,34 +49,61 @@ def get_features(output_file_path, historyLength, k):
 			Y.append(0)
 
 	#X = np.vstack(X)
-	X = np.asarray(X)
-	Y = np.asarray(Y)
+	
 
 	return X, Y
+# Returns features and labels from entire training list of videos
+def consolidated_features_and_labels():
+	
+	hist_length=7
+	k=4
+	X=[]
+	Y=[]
+	features=[]
+	labels=[]
 
-features_path = 'C:\\Users\\Akanksha\\Desktop\\Sem III\\ML PE\\MOT\\MOT Dataset\\2DMOT2015\\2DMOT2015\\train\\TUD-Campus\\outFile.npz'
+	train_videos = ['TUD-Campus','TUD-Stadtmitte','ETH-Sunnyday','KITTI-13','Venice-2']
+	outFile = '/Users/tarinichandra/Desktop/PE/MOT Dataset/2DMOT2015/train/'
+	for name in train_videos:
+		vid_path = os.path.join(outFile,name)
+		vid_path = str(vid_path)+"/"
+		feat_path = str(vid_path)+"outFile.npz"
+		features, labels = features_and_labels_per_video(feat_path,hist_length,k)
+		X.append(features)
+		Y.append(labels)
+	X = np.asarray(X)
+	Y = np.asarray(Y)	
+
+	return X,Y	
+
 
 # Defining the parameters
-historyLength = 7
-k = 4
-input_feat_dim = 4096
-num_classes = 2
+X,Y = consolidated_features_labels()
 
-X, Y = get_features(features_path, historyLength, k)
-print("Input Features Shape: %d, %d, %d" % (X.shape[0], X.shape[1], X.shape[2]))
 
-# Converting the target variable to one hot vector
+X = np.array(X)
+Y = np.array(Y)
+
+hist_length = 7
+
+#Converting the target to one-hot vector
 Y = to_categorical(Y, num_classes)
-print("Target Shape: %d, %d" % (Y.shape[0], Y.shape[1]))
 
-net = create_network(historyLength, input_feat_dim, num_classes)
+#Creating a Tensorflow model
+net = create_model(hist_length, input_size, num_classes)
 model = tflearn.DNN(net, tensorboard_verbose = 0)
-print("Network created")
+
+#Cross validation
 X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size = 0.1, random_state = 42)
 
-model.fit(X_train, y_train , show_metric = True	, validation_set= (X_test, y_test),  snapshot_step = 100, n_epoch = 10)
+model.fit(X_train, y_train ,show_metric = True, snapshot_step = 100, n_epoch = 10)
 
-print(model.evaluate(X_train, y_train))
+
+# Evaluate. Note that although we're passing in "train" data,
+# this is actually our holdout dataset, so we never actually
+# used it to train the model. Bad variable semantics.
+print(model.evaluate(X_test, y_test))
+
 
 # Save the model
 model.save('GRU1.tfl')

@@ -34,6 +34,8 @@ def get_features_per_video(output_file_path, historyLength, k):
 
 		# extracting data point corresponding to 1 label
 		nrow = seq.shape[0]
+		if(nrow<historyLength):
+			break
 		datapoint = seq[nrow - historyLength : nrow, 0:4096]
 		#datapoint = datapoint.flatten().reshape(1,(datapoint.shape[0]*datapoint.shape[1]))
 		X.append(datapoint)
@@ -53,38 +55,44 @@ def get_features_per_video(output_file_path, historyLength, k):
 
 	return X, Y
 # Returns features and labels from entire training list of videos
-def consolidated_features_and_labels():
+def consolidated_features_labels(hist_length):
 	
-	hist_length=7
+	
 	k=4
 	X=[]
 	Y=[]
 	features=[]
 	labels=[]
 
-	train_videos = ['TUD-Campus','TUD-Stadtmitte','ETH-Sunnyday','KITTI-13','Venice-2']
+	train_videos = ['ADL-Rundle-6','ADL-Rundle-8','PETS09-S2L1','TUD-Campus','TUD-Stadtmitte','ETH-Sunnyday','KITTI-13','Venice-2']
 	outFile = '/Users/tarinichandra/Desktop/PE/MOT Dataset/2DMOT2015/train/'
 	for name in train_videos:
 		vid_path = os.path.join(outFile,name)
 		vid_path = str(vid_path)+"/"
 		feat_path = str(vid_path)+"outFile.npz"
-		features, labels = features_and_labels_per_video(feat_path,hist_length,k)
-		X.append(features)
-		Y.append(labels)
-	X = np.asarray(X)
-	Y = np.asarray(Y)	
+		with open(feat_path, 'rb') as f:
+			feat = pickle.load(f)
+		features.append(feat)	
 
+		
+	X,Y = features_and_labels_per_video(features,hist_length,k)
+	X = np.asarray(X)
+	Y = np.asarray(Y
 	return X,Y	
 
 
+
+
+
+)
+
+hist_length = 10
+num_classes = 2
+
+input_size = 4104
+
 # Defining the parameters
-X,Y = consolidated_features_labels()
-
-
-X = np.array(X)
-Y = np.array(Y)
-
-hist_length = 7
+X,Y = consolidated_features_labels(hist_length)
 
 #Converting the target to one-hot vector
 Y = to_categorical(Y, num_classes)

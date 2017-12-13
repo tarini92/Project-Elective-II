@@ -8,3 +8,7 @@ Stanford CS 231n Notes:
 - http://cs231n.github.io/convolutional-networks/
 - http://cs231n.github.io/understanding-cnn/
 - http://cs231n.github.io/transfer-learning/
+
+## Resources Used
+ - http://tflearn.org/
+ - 

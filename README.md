@@ -11,4 +11,3 @@ Stanford CS 231n Notes:
 
 ## Resources Used
  - http://tflearn.org/
- - 

@@ -9,5 +9,11 @@ Stanford CS 231n Notes:
 - http://cs231n.github.io/understanding-cnn/
 - http://cs231n.github.io/transfer-learning/
 
+Dataset used:
+- https://motchallenge.net/data/2D_MOT_2015/
+
+Google Drive link:
+- https://drive.google.com/drive/folders/1On-nUhEpQzPaTMA2pmQIcH5HxPtw8Fa-
+
 ## Resources Used
  - http://tflearn.org/
